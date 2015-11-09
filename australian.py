@@ -12,6 +12,7 @@ from sklearn.cross_validation import train_test_split
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
 from sklearn.preprocessing import StandardScaler
+from sklearn.grid_search import GridSearchCV
 
 dataset = pd.read_csv("data/australian.data", header=None, sep=" ")
 X = dataset.drop(14, axis=1)        # Features
@@ -30,7 +31,10 @@ reg.fit(X_train, y_train)
 predictions = reg.predict(X_test)
 print "Accuracy score for logreg: ", accuracy_score(y_test, predictions)
 
+parameters = {"C": [0.5, 1, 2, 3, 4, 10], "kernel": ["rbf", "poly", "linear"]}
 svm = SVC()
+clf = GridSearchCV(svm, parameters)
 svm.fit(X_train, y_train)
 predictions = svm.predict(X_test)
 print "Accuracy score for svm: ", accuracy_score(y_test, predictions)
+print "Parameters: ", svm.get_params()
