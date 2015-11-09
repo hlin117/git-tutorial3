@@ -26,15 +26,12 @@ conv_X = pd.get_dummies(pd.DataFrame(X), columns=[0, 3, 4, 5, 7, 8, 10, 11])
 X_train, X_test, y_train, y_test = train_test_split(conv_X, y, test_size=0.25,
                                                     random_state=888)
 
-reg = LogisticRegression()
-reg.fit(X_train, y_train)
-predictions = reg.predict(X_test)
-print "Accuracy score for logreg: ", accuracy_score(y_test, predictions)
-
-parameters = {"C": [0.5, 1, 2, 3, 4, 10], "kernel": ["rbf", "poly", "linear"]}
-svm = SVC()
-clf = GridSearchCV(svm, parameters)
-svm.fit(X_train, y_train)
-predictions = svm.predict(X_test)
-print "Accuracy score for svm: ", accuracy_score(y_test, predictions)
-print "Parameters: ", svm.get_params()
+svm_parameters = {"C": [0.5, 1, 2, 3, 4, 10], "kernel": ["rbf", "poly", "linear"]}
+models = [LogisticRegression, GridSearchCV]
+model_parameters = [[], [SVC(), svm_parameters]]
+for model, model_parameters in zip(models, model_parameters):
+    clf = model(*model_parameters)
+    clf.fit(X_train, y_train)
+    predictions = clf.predict(X_test)
+    print "Accuracy score for {0}: {1}" \
+            .format(model.__name__, accuracy_score(y_test, predictions))
