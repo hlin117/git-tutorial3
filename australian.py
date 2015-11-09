@@ -6,7 +6,6 @@
 #python_version :2.7.6
 #================================================================================
 
-from __future__ import division, print_function
 import pandas as pd
 from sklearn.metrics import accuracy_score
 from sklearn.cross_validation import train_test_split
@@ -26,9 +25,9 @@ X_train, X_test, y_train, y_test = train_test_split(conv_X, y, test_size=0.25,
 reg = LogisticRegression()
 reg.fit(X_train, y_train)
 predictions = reg.predict(X_test)
-print("Accuracy score for logreg: ", accuracy_score(y_test, predictions))
+print "Accuracy score for logreg: ", accuracy_score(y_test, predictions)
 
 svm = SVC()
 svm.fit(X_train, y_train)
 predictions = svm.predict(X_test)
-print("Accuracy score for svm: ", accuracy_score(y_test, predictions))
+print "Accuracy score for svm: ", accuracy_score(y_test, predictions)
